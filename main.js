@@ -8,7 +8,9 @@ let params = {
 	list: "allimages",
 	ailimit: batchLimit.toString(),
 };
-const out = {};
+const out = {
+	version: 1,
+};
 const dump = [];
 let batchNo = 0;
 let latestHit = "";
