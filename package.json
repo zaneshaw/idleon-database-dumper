@@ -1,0 +1,13 @@
+{
+	"name": "idleon-database-dumper",
+	"version": "1.0.0",
+	"description": "Dumps all images from the IdleOn Wiki",
+	"main": "main.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "Zane Shaw",
+	"license": "GPL-2.0-or-later",
+	"type": "module"
+}
