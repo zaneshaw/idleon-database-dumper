@@ -1,19 +1,22 @@
 import { writeFileSync } from "node:fs";
 
 const baseUrl = "https://idleon.wiki/wiki/api.php";
+const limit = 500;
 let params = {
 	action: "query",
 	format: "json",
 	list: "allimages",
-	ailimit: "500",
+	ailimit: limit.toString(),
 };
+const out = {};
 const dump = [];
 let batchNo = 0;
 let latestHit = "";
 
 async function fetchImages() {
+	if (batchNo === 0) out.started = Date.now();
 	batchNo++;
-	console.log(`Fetching... (batch ${batchNo})`)
+	console.log(`Fetching... (batch ${batchNo})`);
 
 	let url = baseUrl + "?origin=*";
 	Object.keys(params).forEach(function (key) {
@@ -41,11 +44,13 @@ async function fetchImages() {
 		});
 }
 
-while(dump.length % 500 === 0) {
+while (dump.length % limit === 0) {
 	if (batchNo > 0) params.aifrom = latestHit;
 	await fetchImages();
 }
+out.finished = Date.now();
+out.dump = dump;
 
 console.log(`Found ${dump.length} images!`);
-writeFileSync("dump.json", JSON.stringify(dump, null, 2));
+writeFileSync("dump.json", JSON.stringify(out, null, 2));
 console.log(`Dumped ${dump.length} images!`);
