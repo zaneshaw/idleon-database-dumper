@@ -1,12 +1,12 @@
 import { writeFileSync } from "node:fs";
 
 const baseUrl = "https://idleon.wiki/wiki/api.php";
-const limit = 500;
+const batchLimit = 500;
 let params = {
 	action: "query",
 	format: "json",
 	list: "allimages",
-	ailimit: limit.toString(),
+	ailimit: batchLimit.toString(),
 };
 const out = {};
 const dump = [];
@@ -44,7 +44,7 @@ async function fetchImages() {
 		});
 }
 
-while (dump.length % limit === 0) {
+while (dump.length % batchLimit === 0) {
 	if (batchNo > 0) params.aifrom = latestHit;
 	await fetchImages();
 }
